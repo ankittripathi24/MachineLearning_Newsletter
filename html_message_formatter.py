@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
 from bs4 import BeautifulSoup
+import re
 
 class HTMLMessageFormatter:
     def __init__(self, html_path='lessons/content.html'):
