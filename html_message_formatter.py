@@ -62,6 +62,40 @@ class HTMLMessageFormatter:
             
         return pages
     
+    def _generate_summary(self, content, max_length=150):
+        """
+        Generate a short summary from the content.
+        Takes the first sentences up to max_length characters.
+        """
+        # Clean up any extra whitespace
+        clean_content = re.sub(r'\s+', ' ', content).strip()
+        
+        # Find sentence endings (period followed by space or end of string)
+        sentences = re.split(r'\.(?:\s|$)', clean_content)
+        
+        summary = ""
+        for sentence in sentences:
+            if not sentence.strip():
+                continue
+                
+            # Add period back that was removed in the split
+            potential_summary = summary + sentence.strip() + ". "
+            
+            # If adding this sentence exceeds max length, stop
+            if len(potential_summary) > max_length:
+                # If this is the first sentence and it's too long, truncate it
+                if not summary:
+                    return sentence.strip()[:max_length-3] + "..."
+                break
+                
+            summary = potential_summary
+            
+            # If we have at least one sentence and are near max length, stop
+            if summary and len(summary) > max_length * 0.7:
+                break
+                
+        return summary.strip()
+    
     def get_todays_lesson(self):
         """
         Return the page for today based on days since the start date.
@@ -72,11 +106,16 @@ class HTMLMessageFormatter:
         
         page = self.pages[page_index]
         
-        # Format the message similarly to the original formatter
+        # Generate summary from content
+        summary = self._generate_summary(page['content'])
+        
+        # Format the message with the new summary
         message = f"""
         🤖 Daily ML Lesson #{page['day']}
 
         📚 {page['title']}
+        
+        📝 Today's Topic: {summary}
 
         {page['content']}
         """

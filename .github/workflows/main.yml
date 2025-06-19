@@ -1,4 +1,5 @@
 name: Daily ML Lesson
+
 on:
   schedule:
     - cron: '0 8 * * *'  # Runs at 8 AM UTC daily
@@ -21,9 +22,24 @@ jobs:
           pip install -r requirements.txt
           
       - name: Send Daily Lesson
+        id: example_step
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           WHATSAPP_TOKEN: ${{ secrets.WHATSAPP_TOKEN }}
           WHATSAPP_NUMBER: ${{ secrets.WHATSAPP_NUMBER }}
         run: python send_messages.py
+
+      - name: Send Email Notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "GitHub Actions Result"
+          to: ankit.tripathi@siemens.com
+          from: ${{ secrets.MAIL_USERNAME }}
+          body: |
+            Workflow completed!
+            Summary: ${{ steps.example_step.outputs.summary }}
