@@ -1,0 +1,102 @@
+{
+  "lessons": [
+    {
+      "day": 1,
+      "title": "Introduction to Machine Learning",
+      "content": "Machine Learning is a subset of AI...",
+      "code_example": "import sklearn\n...",
+      "resources": ["link1", "link2"]
+    },
+    {
+      "day": 2,
+      "title": "Linear Regression",
+      "content": "Linear regression is...",
+      "code_example": "from sklearn.linear_model import LinearRegression\n...",
+      "resources": ["link1", "link2"]
+    },
+    {
+      "day": 3,
+      "title": "Logistic Regression",
+      "content": "Logistic regression is used for binary classification...",
+      "code_example": "from sklearn.linear_model import LogisticRegression\n...",
+      "resources": ["link1", "link2"]
+    },
+    {
+      "day": 4,
+      "title": "Decision Trees",
+      "content": "Decision trees are a non-parametric supervised learning method...",
+      "code_example": "from sklearn.tree import DecisionTreeClassifier\n...",
+      "resources": ["link1", "link2"]
+    },
+    {
+      "day": 5,
+      "title": "Support Vector Machines",
+      "content": "Support Vector Machines (SVM) are a set of supervised learning methods...",
+      "code_example": "from sklearn.svm import SVC\n...",
+      "resources": ["link1", "link2"]
+    },
+    {
+      "day": 6,
+      "title": "K-Nearest Neighbors",
+      "content": "K-Nearest Neighbors (KNN) is a simple, non-parametric method...",
+      "code_example": "from sklearn.neighbors import KNeighborsClassifier\n...",
+      "resources": ["link1", "link2"]
+    },
+    {
+      "day": 7,
+      "title": "Naive Bayes",
+      "content": "Naive Bayes classifiers are a family of probabilistic algorithms...",
+      "code_example": "from sklearn.naive_bayes import GaussianNB\n...",
+      "resources": ["link1", "link2"]
+    },
+    {
+      "day": 8,
+      "title": "Random Forests",
+      "content": "Random forests are an ensemble method that uses multiple decision trees...",
+      "code_example": "from sklearn.ensemble import RandomForestClassifier\n...",
+      "resources": ["link1", "link2"]
+    },
+    {
+      "day": 9,
+      "title": "Gradient Boosting",
+      "content": "Gradient boosting is a machine learning technique for regression and classification...",
+      "code_example": "from sklearn.ensemble import GradientBoostingClassifier\n...",
+      "resources": ["link1", "link2"]
+    },
+    {
+      "day": 10,
+      "title": "Neural Networks",
+      "content": "Neural networks are a set of algorithms modeled loosely after the human brain...",
+      "code_example": "from sklearn.neural_network import MLPClassifier\n...",
+      "resources": ["link1", "link2"]
+    },
+    {
+      "day": 11,
+      "title": "Convolutional Neural Networks",
+      "content": "Convolutional Neural Networks (CNNs) are a class of deep neural networks...",
+      "code_example": "import tensorflow as tf\n...",
+      "resources": ["link1", "link2"]
+    },
+    {
+      "day": 12,
+      "title": "Recurrent Neural Networks",
+      "content": "Recurrent Neural Networks (RNNs) are a class of neural networks that are good for sequential data...",
+      "code_example": "from tensorflow.keras.models import Sequential\n...",
+      "resources": ["link1", "link2"]
+    },
+    {
+      "day": 13,
+      "title": "Natural Language Processing",
+      "content": "Natural Language Processing (NLP) is a field of AI that focuses on the interaction between computers and humans through natural language...",
+      "code_example": "import nltk\n...",
+      "resources": ["link1", "link2"]
+    },
+    {
+      "day": 14,
+      "title": "Model Evaluation and Tuning",
+      "content": "Model evaluation and tuning are crucial steps in the machine learning process...",
+      "code_example": "from sklearn.model_selection import train_test_split\n...",
+      "resources": ["link1", "link2"]
+    }
+  ]
+}
