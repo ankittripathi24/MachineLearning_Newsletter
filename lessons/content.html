@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>14-Day Prompt Engineering Course</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .course-header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .course-header h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .course-header p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .daily-lesson {
+            background: rgba(255, 255, 255, 0.95);
+            margin: 2rem 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+        
+        .daily-lesson.active {
+            display: block;
+        }
+        
+        .lesson-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 2rem;
+        }
+        
+        .lesson-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .difficulty-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .objectives, .key-concepts, .main-content, .example, .practice {
+            padding: 2rem;
+        }
+        
+        .objectives {
+            background: #f8f9fa;
+            border-left: 5px solid #007bff;
+        }
+        
+        .objectives h2, .key-concepts h2, .main-content h2, .example h2, .practice h2 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+        
+        .objectives ul, .summary ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .objectives li, .summary li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .objectives li::before, .summary li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .callout {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .callout.warning {
+            background: #fff3e0;
+            border-left-color: #ff9800;
+        }
+        
+        .callout.success {
+            background: #e8f5e8;
+            border-left-color: #4caf50;
+        }
+        
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .example {
+            background: #f8f9fa;
+        }
+        
+        .practice {
+            background: #fff8e1;
+            border-left: 5px solid #ffc107;
+        }
+        
+        .summary {
+            background: #e8f5e8;
+            padding: 2rem;
+            border-top: 3px solid #4caf50;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            margin-top: 2rem;
+            border-radius: 15px;
+        }
+        
+        .nav-btn {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.2s ease;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .day-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        
+        .day-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+        
+        .day-btn.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .day-btn.completed {
+            background: #4caf50;
+            border-color: #4caf50;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .course-header h1 {
+                font-size: 2rem;
+            }
+            
+            .lesson-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .objectives, .key-concepts, .main-content, .example, .practice {
+                padding: 1rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="course-header">
+            <h1>🚀 14-Day Prompt Engineering Mastery Course</h1>
+            <p>From Zero to Advanced in Two Weeks</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="day-selector" id="daySelector"></div>
+        </header>
+
+        <!-- Day 1: Introduction to Prompt Engineering -->
+        <article class="daily-lesson active" data-day="1">
+            <header class="lesson-header">
+                <h1>Day 1: Introduction to Prompt Engineering</h1>
+                <span class="difficulty-badge">Beginner</span>
+                <p>Estimated time: 15-20 minutes</p>
+            </header>
+            
+            <section class="objectives">
+                <h2>🎯 Learning Objectives</h2>
+                <ul>
+                    <li>Understand what prompt engineering is and why it matters</li>
+                    <li>Learn the fundamental principles of effective prompting</li>
+                    <li>Recognize the difference between good and bad prompts</li>
+                </ul>
+            </section>
+            
+            <section class="key-concepts">
+                <h2>🔑 Key Concepts</h2>
+                <div class="callout">
+                    <strong>Prompt Engineering:</strong> The art and science of crafting instructions that guide AI language models to produce desired outputs.
+                </div>
+                <p><strong>Core Elements:</strong></p>
+                <ul>
+                    <li><strong>Clarity:</strong> Clear, unambiguous instructions</li>
+                    <li><strong>Context:</strong> Relevant background information</li>
+                    <li><strong>Constraints:</strong> Specific requirements and limitations</li>
+                    <li><strong>Examples:</strong> Sample inputs and outputs when helpful</li>
+                </ul>
+            </section>
+            
+            <section class="main-content">
+                <h2>📖 Core Content</h2>
+                <p>Prompt engineering has emerged as one of the most crucial skills in the AI era. As language models become more powerful and prevalent, the ability to communicate effectively with them determines the quality of outputs you receive.</p>
+                
+                <p>Think of prompt engineering like learning to communicate with a highly knowledgeable but literal-minded assistant. This assistant can help with virtually any task - writing, coding, analysis, creative work - but only if you provide clear, well-structured instructions.</p>
+                
+                <div class="callout warning">
+                    <strong>Common Misconception:</strong> Many people think AI models "understand" like humans do. Instead, they respond to patterns in your prompts based on their training data.
+                </div>
+                
+                <p>The foundation of good prompt engineering rests on understanding that AI models work best when given:</p>
+                <ul>
+                    <li><strong>Specific instructions</strong> rather than vague requests</li>
+                    <li><strong>Structured formats</strong> that organize information clearly</li>
+                    <li><strong>Contextual information</strong> that frames the task appropriately</li>
+                    <li><strong>Clear constraints</strong> that define boundaries and expectations</li>
+                </ul>
+                
+                <p>As we progress through this course, you'll learn systematic approaches to crafting prompts that consistently produce high-quality results across different domains and use cases.</p>
+            </section>
+            
+            <section class="example">
+                <h2>💡 Practical Example</h2>
+                <p><strong>Bad Prompt:</strong></p>
+                <pre><code>Write about marketing.</code></pre>
+                
+                <p><strong>Good Prompt:</strong></p>
+                <pre><code>Write a 200-word blog introduction about Instagram marketing strategies 
+for small businesses. Focus on organic growth techniques and include 
+one specific actionable tip. Use a friendly, professional tone suitable 
+for entrepreneurs with limited marketing experience.</code></pre>
+                
+                <div class="callout success">
+                    <strong>Why it's better:</strong> The improved prompt specifies length, platform, audience, tone, focus area, and includes a specific requirement for actionable content.
+                </div>
+            </section>
+            
+            <section class="practice">
+                <h2>🏋️ Practice Exercise</h2>
+                <p><strong>Your Task:</strong> Transform this vague prompt into a specific, well-structured one:</p>
+                <pre><code>"Help me with my resume."</code></pre>
+                
+                <p><strong>Instructions:</strong> Rewrite the prompt to include:</p>
+                <ul>
+                    <li>Specific type of help needed</li>
+                    <li>Industry or role context</li>
+                    <li>Current situation/background</li>
+                    <li>Desired outcome format</li>
+                </ul>
+                
+                <p><strong>Reflection Questions:</strong></p>
+                <ul>
+                    <li>What assumptions might the AI make with the vague prompt?</li>
+                    <li>How does adding context change the potential response quality?</li>
+                </ul>
+            </section>
+            
+            <footer class="summary">
+                <h2>📋 Key Takeaways</h2>
+                <ul>
+                    <li>Prompt engineering is about clear communication with AI systems</li>
+                    <li>Specificity beats vagueness in all prompt scenarios</li>
+                    <li>Good prompts include context, constraints, and clear expectations</li>
+                    <li>Practice and iteration improve prompt effectiveness over time</li>
+                </ul>
+            </footer>
+        </article>
+
+        <!-- Day 2: Zero-Shot and Few-Shot Prompting -->
+        <article class="daily-lesson" data-day="2">
+            <header class="lesson-header">
+                <h1>Day 2: Zero-Shot and Few-Shot Prompting</h1>
+                <span class="difficulty-badge">Beginner</span>
+                <p>Estimated time: 18-22 minutes</p>
+            </header>
+            
+            <section class="objectives">
+                <h2>🎯 Learning Objectives</h2>
+                <ul>
+                    <li>Understand the difference between zero-shot and few-shot prompting</li>
+                    <li>Learn when to use each approach effectively</li>
+                    <li>Practice creating few-shot examples that guide model behavior</li>
+                </ul>
+            </section>
+            
+            <section class="key-concepts">
+                <h2>🔑 Key Concepts</h2>
+                <div class="callout">
+                    <strong>Zero-Shot Prompting:</strong> Asking the AI to perform a task without providing any examples, relying solely on the model's general understanding.
+                </div>
+                <div class="callout">
+                    <strong>Few-Shot Prompting:</strong> Providing one or more example input-output pairs to demonstrate the desired pattern or format before asking for the actual task.
+                </div>
+                <p><strong>Key Principle:</strong> Few-shot prompting enables "in-context learning" - the model learns from your examples within the conversation.</p>
+            </section>
+            
+            <section class="main-content">
+                <h2>📖 Core Content</h2>
+                <p>Zero-shot and few-shot prompting represent two fundamental approaches to task instruction. Understanding when and how to use each approach dramatically impacts your results.</p>
+                
+                <p><strong>Zero-Shot Prompting</strong> works well when:</p>
+                <ul>
+                    <li>The task is straightforward and commonly understood</li>
+                    <li>You want the model's default behavior</li>
+                    <li>The format requirements are simple</li>
+                    <li>You're exploring what the model can do naturally</li>
+                </ul>
+                
+                <p><strong>Few-Shot Prompting</strong> excels when:</p>
+                <ul>
+                    <li>You need a specific format or structure</li>
+                    <li>The task has nuanced requirements</li>
+                    <li>You want consistent style across outputs</li>
+                    <li>The model struggles with zero-shot attempts</li>
+                </ul>
+                
+                <div class="callout warning">
+                    <strong>Quality over Quantity:</strong> Research shows that 2-3 high-quality examples often work better than many mediocre ones. Focus on diverse, representative examples.
+                </div>
+                
+                <p>When creating few-shot examples, ensure they:</p>
+                <ul>
+                    <li>Represent the variety you expect in real inputs</li>
+                    <li>Demonstrate the exact output format you want</li>
+                    <li>Show edge cases or tricky scenarios when relevant</li>
+                    <li>Maintain consistent quality and style</li>
+                </ul>
+            </section>
+            
+            <section class="example">
+                <h2>💡 Practical Example</h2>
+                <p><strong>Zero-Shot Example:</strong></p>
+                <pre><code>Classify the sentiment of this review as positive, negative, or neutral:
+"The food was okay, nothing special but not bad either."</code></pre>
+                
+                <p><strong>Few-Shot Example:</strong></p>
+                <pre><code>Classify the sentiment of these reviews as positive, negative, or neutral:
+
+Review: "Amazing pizza! Best I've ever had."
+Classification: Positive
+
+Review: "Terrible service, cold food, won't return."
+Classification: Negative
+
+Review: "It's fine, average restaurant."
+Classification: Neutral
+
+Review: "The food was okay, nothing special but not bad either."
+Classification:</code></pre>
+                
+                <div class="callout success">
+                    <strong>Why few-shot works better here:</strong> The examples establish the classification criteria and show how to handle nuanced cases like "okay" and "fine."
+                </div>
+            </section>
+            
+            <section class="practice">
+                <h2>🏋️ Practice Exercise</h2>
+                <p><strong>Task:</strong> Create a few-shot prompt for extracting key information from job postings.</p>
+                
+                <p><strong>Requirements:</strong></p>
+                <ul>
+                    <li>Extract: Job Title, Company, Location, Experience Level</li>
+                    <li>Handle missing information gracefully</li>
+                    <li>Use consistent formatting</li>
+                </ul>
+                
+                <p><strong>Create 2-3 examples, then test with this job posting:</strong></p>
+                <pre><code>"Senior Software Engineer position at TechCorp in Austin, TX. 
+Looking for candidates with 5+ years experience in Python and React. 
+Remote work options available."</code></pre>
+                
+                <p><strong>Bonus Challenge:</strong> Compare your few-shot results with a zero-shot attempt on the same task.</p>
+            </section>
+            
+            <footer class="summary">
+                <h2>📋 Key Takeaways</h2>
+                <ul>
+                    <li>Zero-shot works for simple, well-understood tasks</li>
+                    <li>Few-shot provides guidance through examples and improves consistency</li>
+                    <li>Quality examples are more valuable than quantity</li>
+                    <li>Few-shot examples should represent the variety of real-world inputs</li>
+                </ul>
+            </footer>
+        </article>
+
+        <!-- Continue with remaining days... -->
+        <!-- Day 3-14 content follows the same structure -->
+        
+        <div class="navigation">
+            <button class="nav-btn" id="prevBtn" onclick="changeDay(-1)">← Previous</button>
+            <span id="dayCounter">Day 1 of 14</span>
+            <button class="nav-btn" id="nextBtn" onclick="changeDay(1)">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentDay = 1;
+        const totalDays = 14;
+        const completedDays = JSON.parse(localStorage.getItem('completedDays') || '[]');
+
+        function initializeCourse() {
+            createDaySelector();
+            updateProgress();
+            updateNavigation();
+        }
+
+        function createDaySelector() {
+            const selector = document.getElementById('daySelector');
+            for (let i = 1; i <= totalDays; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'day-btn';
+                btn.textContent = i;
+                btn.onclick = () => goToDay(i);
+                
+                if (i === currentDay) btn.classList.add('active');
+                if (completedDays.includes(i)) btn.classList.add('completed');
+                
+                selector.appendChild(btn);
+            }
+        }
+
+        function goToDay(day) {
+            currentDay = day;
+            document.querySelectorAll('.daily-lesson').forEach(lesson => {
+                lesson.classList.remove('active');
+            });
+            document.querySelector(`[data-day="${day}"]`).classList.add('active');
+            
+            document.querySelectorAll('.day-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelectorAll('.day-btn')[day - 1].classList.add('active');
+            
+            updateNavigation();
+            updateProgress();
+            
+            document.querySelector('.course-header').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function changeDay(direction) {
+            const newDay = currentDay + direction;
+            if (newDay >= 1 && newDay <= totalDays) {
+                goToDay(newDay);
+            }
+        }
+
+        function updateNavigation() {
+            document.getElementById('prevBtn').disabled = currentDay === 1;
+            document.getElementById('nextBtn').disabled = currentDay === totalDays;
+            document.getElementById('dayCounter').textContent = `Day ${currentDay} of ${totalDays}`;
+        }
+
+        function updateProgress() {
+            const progress = (currentDay / totalDays) * 100;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+        }
+
+        function markDayComplete() {
+            if (!completedDays.includes(currentDay)) {
+                completedDays.push(currentDay);
+                localStorage.setItem('completedDays', JSON.stringify(completedDays));
+                document.querySelectorAll('.day-btn')[currentDay - 1].classList.add('completed');
+            }
+        }
+
+        // Auto-mark completion when scrolling to bottom
+        window.addEventListener('scroll', () => {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+                markDayComplete();
+            }
+        });
+
+        // Initialize course on load
+        document.addEventListener('DOMContentLoaded', initializeCourse);
+    </script>
+</body>
+</html>
