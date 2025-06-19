@@ -26,4 +26,4 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           WHATSAPP_TOKEN: ${{ secrets.WHATSAPP_TOKEN }}
           WHATSAPP_NUMBER: ${{ secrets.WHATSAPP_NUMBER }}
-        run: python src/send_messages.py
+        run: python send_messages.py
