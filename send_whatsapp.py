@@ -1,7 +1,7 @@
 import os
 from twilio.rest import Client
 
-def send_whatsapp_message(message):
+def send_message(message):
     # account_sid = os.environ['TWILIO_ACCOUNT_SID']
     # auth_token = os.environ['TWILIO_AUTH_TOKEN']
     # from_number = os.environ['WHATSAPP_NUMBER']

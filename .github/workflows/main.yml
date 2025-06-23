@@ -22,7 +22,7 @@ jobs:
           pip install -r requirements.txt
           
       - name: Send Daily Lesson
-        id: example_step
+        id: SendLesson
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
@@ -42,4 +42,4 @@ jobs:
           from: ${{ secrets.MAIL_USERNAME }}
           body: |
             Workflow completed!
-            Summary: ${{ steps.example_step.outputs.summary }}
+            Summary: ${{ steps.SendLesson.outputs.summary }}
